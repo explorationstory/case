@@ -1,9 +1,9 @@
 /*
  *
  *  ---------------------------------------------------------------------------------------------------------
- *              Titel: ConsoleTests.java
+ *              Titel: Menu.java
  *             Auteur: spekj06
- *    Creatietijdstip: 20-4-2022 11:18
+ *    Creatietijdstip: 20-4-2022 11:20
  *          Copyright: (c) 2022 Belastingdienst / Centrum voor Applicatieontwikkeling en Onderhoud,
  *                     All Rights Reserved.
  *  ---------------------------------------------------------------------------------------------------------
@@ -17,25 +17,47 @@
  *  ---------------------------------------------------------------------------------------------------------
  *
  */
-package nl.belastingdienst.console;
+package nl.belastingdienst.person;
 
-import org.junit.jupiter.api.Test;
-
-import nl.belastingdienst.person.VisitorDatabaseOperations;
+import java.util.Scanner;
 
 /**
  * TODO: spekj06: beschrijf deze klasse !
  *
  * @author spekj06
  */
-public class ConsoleTests {
+public class Menu {
+	VisitorDatabaseOperations databaseOperations;
 
-	@Test
-	void whenShowMenuOptionsThenReturnInt() {
-		VisitorDatabaseOperations visitorDatabaseOperations = new VisitorDatabaseOperations();
-		Menu menu = new Menu(visitorDatabaseOperations);
-
-		menu.initMenu();
+	public Menu(VisitorDatabaseOperations databaseOperations) {
+		this.databaseOperations = databaseOperations;
 	}
 
+	public void initMenu() {
+		Scanner scanner = new Scanner(System.in);
+		int choice;
+		do {
+			choice = showMenuOptions(scanner);
+
+			switch (choice) {
+			case 1:
+				System.out.println("Tonen bezoekerslijst ");
+				databaseOperations.getEvacuationList();
+				break;
+			case 2:
+				System.out.println("Invoeren bezoeker....");
+				break;
+			}
+
+		} while (choice != 0);
+	}
+
+	public int showMenuOptions(Scanner scanner) {
+		System.out.println("Welkom by Sign in!\n Maak uw keuze\n");
+		System.out.println("1. Toon actuele presentielijst");
+		System.out.println("2. Bezoeker invoeren");
+		System.out.print("   Voer u keuze in : ");
+
+		return scanner.nextInt();
+	}
 }

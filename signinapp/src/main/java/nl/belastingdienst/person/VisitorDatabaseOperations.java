@@ -1,9 +1,9 @@
 /*
  *
  *  ---------------------------------------------------------------------------------------------------------
- *              Titel: PersonDatabaseTests.java
+ *              Titel: VisitorDatabaseOperations.java
  *             Auteur: spekj06
- *    Creatietijdstip: 20-4-2022 11:04
+ *    Creatietijdstip: 20-4-2022 15:24
  *          Copyright: (c) 2022 Belastingdienst / Centrum voor Applicatieontwikkeling en Onderhoud,
  *                     All Rights Reserved.
  *  ---------------------------------------------------------------------------------------------------------
@@ -19,8 +19,6 @@
  */
 package nl.belastingdienst.person;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -30,80 +28,25 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-
 /**
- * Tests for person functionalities
+ * TODO: spekj06: beschrijf deze klasse !
  *
  * @author spekj06
  */
-public class PersonDatabaseTests {
+public class VisitorDatabaseOperations {
+
 
 	EntityManagerFactory emf;
 	EntityManager em;
 	EntityTransaction transaction;
 
-	@Test
-	void runApplication() {
-
-		VisitorDatabaseOperations dbOperations = new VisitorDatabaseOperations();
-		Menu menu = new Menu(dbOperations);
-
-		dbOperations.loadVisitorsInDatabase();
-
-		menu.initMenu();
-
-	}
-
-	@BeforeEach
-	void setUp() {
+	public VisitorDatabaseOperations() {
 		emf = Persistence.createEntityManagerFactory("signin-db");
 		em = emf.createEntityManager();
 		transaction = em.getTransaction();
 	}
 
-	@Test
-	void testDatabaseConnection() {
-		Assertions.assertThat(em).isNotNull();
-	}
-
-	@Test
-	void insertVisitorInSignInAppDatabase() {
-		Person person = new Person("Jamie","Spekman ","0622334456", LocalDateTime.now(),"Tom Cruise", 666);
-
-		transaction.begin();
-		em.persist(person);
-		transaction.commit();
-		em.clear();
-
-		Person fetchedPersonRecord = em.find(Person.class,1);
-
-		assertEquals(person.getFirstName(),fetchedPersonRecord.getFirstName());
-
-		em.close();
-	}
-
-	@Test
-	void getEvacuationListFromDatabase(){
-		insert5VisitorsInDatabase();
-		String jpqlQuery = "SELECT p FROM Person p";
-		TypedQuery<Person> query = em.createQuery(jpqlQuery,Person.class);
-		List<Person> bezoekers =query.getResultList();
-
-		printEvacuationList(bezoekers);
-	}
-
-	private void printEvacuationList(List<Person> personList) {
-		System.out.println("Evacuatielijst: \n");
-		for(Person person : personList) {
-			System.out.println(person);
-		}
-	}
-
-	private void insert5VisitorsInDatabase() {
+	public void loadVisitorsInDatabase(){
 		Person person1 = new Person("Jamie","Spekman ","0622334456", LocalDateTime.now(),"Tom", 666);
 		Person person2 = new Person("Eric","de Soff ","0622323456", LocalDateTime.now(),"Joris", 2);
 		Person person3 = new Person("Coen","Hoogduin","068968786", LocalDateTime.now(),"Joris", 5);
@@ -123,4 +66,19 @@ public class PersonDatabaseTests {
 		em.clear();
 	}
 
+	public void getEvacuationList() {
+
+		String jpqlQuery = "SELECT p FROM Person p";
+		TypedQuery<Person> query = em.createQuery(jpqlQuery,Person.class);
+		List<Person> bezoekers =query.getResultList();
+
+		printEvacuationList(bezoekers);
+	}
+
+	private void printEvacuationList(List<Person> personList) {
+		System.out.println("Evacuatielijst: \n");
+		for(Person person : personList) {
+			System.out.println(person);
+		}
+	}
 }

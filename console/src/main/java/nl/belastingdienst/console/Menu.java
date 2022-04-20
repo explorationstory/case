@@ -21,12 +21,19 @@ package nl.belastingdienst.console;
 
 import java.util.Scanner;
 
+import nl.belastingdienst.person.VisitorDatabaseOperations;
+
 /**
  * TODO: spekj06: beschrijf deze klasse !
  *
  * @author spekj06
  */
 public class Menu {
+	VisitorDatabaseOperations databaseOperations;
+
+	public Menu(VisitorDatabaseOperations databaseOperations) {
+		this.databaseOperations = databaseOperations;
+	}
 
 	public void initMenu() {
 		Scanner scanner = new Scanner(System.in);
@@ -37,6 +44,7 @@ public class Menu {
 			switch (choice) {
 			case 1:
 				System.out.println("Tonen bezoekerslijst ");
+				databaseOperations.getEvacuationList();
 				break;
 			case 2:
 				System.out.println("Invoeren bezoeker....");
