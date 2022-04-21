@@ -32,7 +32,7 @@ public class Menu {
 	PersonDao databaseOperations;
 
 	public Menu(PersonDao databaseOperations) {
-		this.databaseOperations = databaseOperations;
+//		this.personDao = databaseOperations;
 	}
 
 	public void initMenu() {

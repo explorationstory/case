@@ -51,14 +51,10 @@ public class PersonDatabaseTests {
 
 	@Test
 	void runApplication() {
-
-		PersonDao dbOperations = new PersonDao();
-		Menu menu = new Menu(dbOperations);
-
-//		dbOperations.loadVisitorsInDatabase();
+		PersonDao personDataAccessObject = new PersonDao();
+		Menu menu = new Menu(personDataAccessObject);
 
 		menu.initMenu();
-
 	}
 
 	@BeforeEach

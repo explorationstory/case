@@ -22,6 +22,7 @@ package nl.belastingdienst.console;
 import java.util.Scanner;
 
 import nl.belastingdienst.data.PersonDao;
+import nl.belastingdienst.services.PersonService;
 
 /**
  * TODO: spekj06: beschrijf deze klasse !
@@ -29,10 +30,13 @@ import nl.belastingdienst.data.PersonDao;
  * @author spekj06
  */
 public class Menu {
-	PersonDao databaseOperations;
+	PersonDao personDao;
+	PersonService personService;
 
-	public Menu(PersonDao databaseOperations) {
-		this.databaseOperations = databaseOperations;
+	public Menu(PersonDao personDataAccessObject) {
+		this.personDao = personDataAccessObject;
+		personService = new PersonService(personDao);
+
 	}
 
 	public void initMenu() {
@@ -40,14 +44,12 @@ public class Menu {
 		int choice;
 		do {
 			choice = showMenuOptions(scanner);
-
 			switch (choice) {
 			case 1:
 				System.out.println("Tonen bezoekerslijst ");
-//				databaseOperations.getEvacuationList();
 				break;
 			case 2:
-				System.out.println("Invoeren bezoeker....");
+				personService.getVisitorDetailsFromConsoleInput(scanner);
 				break;
 			}
 
