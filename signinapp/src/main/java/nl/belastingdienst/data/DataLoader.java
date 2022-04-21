@@ -1,9 +1,9 @@
 /*
  *
  *  ---------------------------------------------------------------------------------------------------------
- *              Titel: VisitorDatabaseOperations.java
+ *              Titel: DataLoader.java
  *             Auteur: spekj06
- *    Creatietijdstip: 20-4-2022 15:24
+ *    Creatietijdstip: 21-4-2022 10:02
  *          Copyright: (c) 2022 Belastingdienst / Centrum voor Applicatieontwikkeling en Onderhoud,
  *                     All Rights Reserved.
  *  ---------------------------------------------------------------------------------------------------------
@@ -17,7 +17,7 @@
  *  ---------------------------------------------------------------------------------------------------------
  *
  */
-package nl.belastingdienst.person;
+package nl.belastingdienst.data;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,19 +28,20 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
+import nl.belastingdienst.models.Person;
+
 /**
  * TODO: spekj06: beschrijf deze klasse !
  *
  * @author spekj06
  */
-public class VisitorDatabaseOperations {
+public class DataLoader {
 
+	private final EntityManagerFactory emf;
+	private final EntityManager em;
+	private final EntityTransaction transaction;
 
-	EntityManagerFactory emf;
-	EntityManager em;
-	EntityTransaction transaction;
-
-	public VisitorDatabaseOperations() {
+	public DataLoader() {
 		emf = Persistence.createEntityManagerFactory("signin-db");
 		em = emf.createEntityManager();
 		transaction = em.getTransaction();

@@ -34,6 +34,9 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import nl.belastingdienst.console.Menu;
+import nl.belastingdienst.data.PersonDao;
+import nl.belastingdienst.models.Person;
 
 /**
  * Tests for person functionalities
@@ -49,10 +52,10 @@ public class PersonDatabaseTests {
 	@Test
 	void runApplication() {
 
-		VisitorDatabaseOperations dbOperations = new VisitorDatabaseOperations();
+		PersonDao dbOperations = new PersonDao();
 		Menu menu = new Menu(dbOperations);
 
-		dbOperations.loadVisitorsInDatabase();
+//		dbOperations.loadVisitorsInDatabase();
 
 		menu.initMenu();
 

@@ -1,9 +1,9 @@
 /*
  *
  *  ---------------------------------------------------------------------------------------------------------
- *              Titel: ConsoleTests.java
+ *              Titel: Dao.java
  *             Auteur: spekj06
- *    Creatietijdstip: 20-4-2022 11:18
+ *    Creatietijdstip: 21-4-2022 09:53
  *          Copyright: (c) 2022 Belastingdienst / Centrum voor Applicatieontwikkeling en Onderhoud,
  *                     All Rights Reserved.
  *  ---------------------------------------------------------------------------------------------------------
@@ -17,25 +17,21 @@
  *  ---------------------------------------------------------------------------------------------------------
  *
  */
-package nl.belastingdienst.console;
+package nl.belastingdienst.data;
 
-import org.junit.jupiter.api.Test;
-
-import nl.belastingdienst.data.PersonDao;
+import java.util.List;
+import java.util.Optional;
 
 /**
- * TODO: spekj06: beschrijf deze klasse !
- *
+ * Data Access Object(DAO) abstracte interface voor het scheiden van
+ * business laag van de datalaag
  * @author spekj06
  */
-public class ConsoleTests {
+public interface Dao<T> {
 
-	@Test
-	void whenShowMenuOptionsThenReturnInt() {
-		PersonDao visitorDatabaseOperations = new PersonDao();
-		Menu menu = new Menu(visitorDatabaseOperations);
+	Optional<T> getOne(int id);
 
-		menu.initMenu();
-	}
+	List<T> getAll();
 
+	void save(T entity);
 }

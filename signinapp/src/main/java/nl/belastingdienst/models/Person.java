@@ -17,7 +17,7 @@
  *  ---------------------------------------------------------------------------------------------------------
  *
  */
-package nl.belastingdienst.person;
+package nl.belastingdienst.models;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -25,8 +25,6 @@ import java.time.format.DateTimeFormatter;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
-import org.hibernate.annotations.Table;
 
 /**
  * TODO: spekj06: beschrijf deze klasse !

@@ -1,9 +1,9 @@
 /*
  *
  *  ---------------------------------------------------------------------------------------------------------
- *              Titel: Menu.java
+ *              Titel: PersonDaoTests.java
  *             Auteur: spekj06
- *    Creatietijdstip: 20-4-2022 11:20
+ *    Creatietijdstip: 21-4-2022 10:07
  *          Copyright: (c) 2022 Belastingdienst / Centrum voor Applicatieontwikkeling en Onderhoud,
  *                     All Rights Reserved.
  *  ---------------------------------------------------------------------------------------------------------
@@ -17,47 +17,13 @@
  *  ---------------------------------------------------------------------------------------------------------
  *
  */
-package nl.belastingdienst.person;
-
-import java.util.Scanner;
+package nl.belastingdienst.data;
 
 /**
- * TODO: spekj06: beschrijf deze klasse !
+ * Unittesten voor PersonDao klasse
  *
  * @author spekj06
  */
-public class Menu {
-	VisitorDatabaseOperations databaseOperations;
+public class PersonDaoTests {
 
-	public Menu(VisitorDatabaseOperations databaseOperations) {
-		this.databaseOperations = databaseOperations;
-	}
-
-	public void initMenu() {
-		Scanner scanner = new Scanner(System.in);
-		int choice;
-		do {
-			choice = showMenuOptions(scanner);
-
-			switch (choice) {
-			case 1:
-				System.out.println("Tonen bezoekerslijst ");
-				databaseOperations.getEvacuationList();
-				break;
-			case 2:
-				System.out.println("Invoeren bezoeker....");
-				break;
-			}
-
-		} while (choice != 0);
-	}
-
-	public int showMenuOptions(Scanner scanner) {
-		System.out.println("Welkom by Sign in!\n Maak uw keuze\n");
-		System.out.println("1. Toon actuele presentielijst");
-		System.out.println("2. Bezoeker invoeren");
-		System.out.print("   Voer u keuze in : ");
-
-		return scanner.nextInt();
-	}
 }
