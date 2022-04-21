@@ -20,6 +20,7 @@
 package nl.belastingdienst.data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
@@ -74,22 +75,34 @@ public class PersonDaoTests {
 
 	@Test
 	void givenPersonObject_whenSave_ThenPersonObjectIsPersistedToDatabase() {
-
 		//Arrange
 		PersonDao personDataAccessObject = new PersonDao();
-		Person actualPersonFromDatabase;
+		Person actualPersonRetrievedFromDatabase;
 		String expectedName = "Jamie";
 		String expectedPhoneNumber = "0622334456";
 
 		//Act
 		personDataAccessObject.save(person);
 		Optional<Person> personOptional = personDataAccessObject.getOne(1);
-		actualPersonFromDatabase = personOptional.get();
+		actualPersonRetrievedFromDatabase = personOptional.get();
 
 		//Assert
-		Assertions.assertEquals(expectedName,actualPersonFromDatabase.getFirstName());
-		Assertions.assertEquals(expectedPhoneNumber,actualPersonFromDatabase.getPhoneNumber());
+		Assertions.assertEquals(expectedName,actualPersonRetrievedFromDatabase.getFirstName());
+		Assertions.assertEquals(expectedPhoneNumber,actualPersonRetrievedFromDatabase.getPhoneNumber());
+	}
 
+	@Test
+	void whenGetAll_thenReturnListFromDatabase() {
+		//Arrange
+		DataLoader dataLoader = new DataLoader();
+		PersonDao personDataAccessObject = new PersonDao();
+
+		//Act
+		dataLoader.loadVisitorsInDatabase();
+		List<Person> personList = personDataAccessObject.getAll();
+
+		//Assert
+		Assertions.assertEquals(personList.isEmpty(),false);
 	}
 
 }

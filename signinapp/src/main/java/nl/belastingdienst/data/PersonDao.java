@@ -26,6 +26,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 
 import nl.belastingdienst.models.Person;
 
@@ -54,8 +55,10 @@ public class PersonDao implements Dao<Person> {
 
 	@Override
 	public List<Person> getAll() {
-		// TODO: implement
-		throw new UnsupportedOperationException("TODO: implement method getAll() --> List<Person>");
+		em = emf.createEntityManager();
+		String jpqlQuery = "SELECT p FROM Person p";
+		TypedQuery<Person> query = em.createQuery(jpqlQuery,Person.class);
+		return query.getResultList();
 	}
 
 	@Override

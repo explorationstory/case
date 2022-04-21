@@ -25,7 +25,7 @@ import nl.belastingdienst.data.PersonDao;
 import nl.belastingdienst.services.PersonService;
 
 /**
- * TODO: spekj06: beschrijf deze klasse !
+ * Console menu met verschillende opties
  *
  * @author spekj06
  */
@@ -36,18 +36,22 @@ public class Menu {
 	public Menu(PersonDao personDataAccessObject) {
 		this.personDao = personDataAccessObject;
 		personService = new PersonService(personDao);
-
 	}
 
 	public void initMenu() {
 		Scanner scanner = new Scanner(System.in);
 		int choice;
 		do {
-			choice = showMenuOptions(scanner);
+
+			System.out.print(menuOptions());
+			choice = getUserMenuOptions(scanner, personService);
+
 			switch (choice) {
+
 			case 1:
-				System.out.println("Tonen bezoekerslijst ");
+				personService.getAllVisitorsFromDatabase();
 				break;
+
 			case 2:
 				personService.getVisitorDetailsFromConsoleInput(scanner);
 				break;
@@ -56,12 +60,17 @@ public class Menu {
 		} while (choice != 0);
 	}
 
-	public int showMenuOptions(Scanner scanner) {
-		System.out.println("Welkom by Sign in!\n Maak uw keuze\n");
-		System.out.println("1. Toon actuele presentielijst");
-		System.out.println("2. Bezoeker invoeren");
-		System.out.print("   Voer u keuze in : ");
-
+	public int getUserMenuOptions(Scanner scanner, PersonService personService) {
+		personService.validateInput(scanner, "Kies invoer 1 of 2", menuOptions());
 		return scanner.nextInt();
+	}
+
+	public String menuOptions() {
+		StringBuilder sb = new StringBuilder("\nWelkom by Sign in!\n Maak uw keuze\n");
+		sb.append("1. Toon actuele presentielijst\n");
+		sb.append("2. Bezoeker invoeren\n");
+		sb.append("   voer u keuze in : ");
+
+		return sb.toString();
 	}
 }

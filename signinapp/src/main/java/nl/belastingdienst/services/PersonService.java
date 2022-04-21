@@ -42,37 +42,47 @@ public class PersonService {
 		personDao.save(person);
 	}
 
-	public void getAllVisitorsFromDatabase(){
-
+	public void getAllVisitorsFromDatabase() {
+		printEvacuationList(personDao.getAll());
 	}
 
 	public Person getVisitorDetailsFromConsoleInput(Scanner scanner) {
-
+		String locationNumberFromInputMessage = "Voer locatienummer in: ";
 		System.out.print("Voer voornaam in: ");
 		String firstName = scanner.next();
 
 		System.out.print("Voer achternaam in: ");
 		String lastName = scanner.next();
 
-		System.out.print("Voer telefoonnummerin : ");
+		System.out.print("Voer telefoonnummerin: ");
 		String phoneNumber = scanner.next();
 
-		System.out.print("Voer volledige naam contactpersoon in");
+		System.out.print("Voer volledige naam contactpersoon in: ");
 		String contactPerson = scanner.next();
 
-		System.out.print("Voer locatienummer: ");
+		System.out.print(locationNumberFromInputMessage);
+		validateInput(scanner, "Invoer moet bestaan uit nummers",locationNumberFromInputMessage);
 		int location = scanner.nextInt();
 
-		Person person = new Person(firstName,lastName,phoneNumber, LocalDateTime.now(),contactPerson,
-				location);
+		Person person = new Person(firstName, lastName, phoneNumber, LocalDateTime.now(),
+				contactPerson, location);
 		saveVisitor(person);
 
 		return person;
 	}
 
+	public void validateInput(Scanner scanner, String errorMessage, String inputMessage) {
+
+		while(!scanner.hasNextInt()){
+			System.err.println(errorMessage);
+			System.out.print(inputMessage);
+			scanner.next();
+		}
+	}
+
 	private void printEvacuationList(List<Person> personList) {
 		System.out.println("Evacuatielijst: \n");
-		for(Person person : personList) {
+		for (Person person : personList) {
 			System.out.println(person);
 		}
 	}
