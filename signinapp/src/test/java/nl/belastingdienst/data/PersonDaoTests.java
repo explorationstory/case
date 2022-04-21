@@ -40,34 +40,56 @@ import nl.belastingdienst.models.Person;
  */
 public class PersonDaoTests {
 	Person person;
-	PersonDao personDao;
 
 	@BeforeEach
 	void setUp() {
-		personDao = new PersonDao();
+
 		person = new Person("Jamie", "Spekman ", "0622334456", LocalDateTime.now(), "Tom Cruise",
 				666);
 	}
 
 	@Test
 	void givenIdOfPerson_whenGetOne_ThenReturnPersonFromDatabase() {
+		//Arrange
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("signin-db");
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction transaction = em.getTransaction();
-
-		transaction.begin();
-		em.persist(person);
-		transaction.commit();
-
-		Optional<Person> personOptional = personDao.getOne(1);
+		PersonDao personDao = new PersonDao();
 		String expectedName = "Jamie";
 		String expectedPhoneNumber = "0622334456";
 
+		//Act
+		transaction.begin();
+		em.persist(person);
+		transaction.commit();
+		Optional<Person> personOptional = personDao.getOne(1);
+
+		//Assert
 		Assertions.assertEquals(expectedName,personOptional.get().getFirstName());
 		Assertions.assertEquals(expectedPhoneNumber,person.getPhoneNumber());
+
 		em.clear();
 		em.close();
 	}
 
+	@Test
+	void givenPersonObject_whenSave_ThenPersonObjectIsPersistedToDatabase() {
+
+		//Arrange
+		PersonDao personDataAccessObject = new PersonDao();
+		Person actualPersonFromDatabase;
+		String expectedName = "Jamie";
+		String expectedPhoneNumber = "0622334456";
+
+		//Act
+		personDataAccessObject.save(person);
+		Optional<Person> personOptional = personDataAccessObject.getOne(1);
+		actualPersonFromDatabase = personOptional.get();
+
+		//Assert
+		Assertions.assertEquals(expectedName,actualPersonFromDatabase.getFirstName());
+		Assertions.assertEquals(expectedPhoneNumber,actualPersonFromDatabase.getPhoneNumber());
+
+	}
 
 }

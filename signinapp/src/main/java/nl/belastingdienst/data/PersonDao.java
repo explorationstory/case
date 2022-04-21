@@ -37,7 +37,7 @@ import nl.belastingdienst.models.Person;
 public class PersonDao implements Dao<Person> {
 
 	private final EntityManagerFactory emf;
-	private final EntityManager em;
+	private EntityManager em;
 	private final EntityTransaction transaction;
 
 	public PersonDao() {
@@ -48,6 +48,7 @@ public class PersonDao implements Dao<Person> {
 
 	@Override
 	public Optional<Person> getOne(int id) {
+		em = emf.createEntityManager();
 		return Optional.ofNullable(em.find(Person.class,id));
 	}
 
@@ -59,7 +60,18 @@ public class PersonDao implements Dao<Person> {
 
 	@Override
 	public void save(Person entity) {
-		// TODO: implement
-		throw new UnsupportedOperationException("TODO: implement method save() --> void");
+		beginTransaction(transaction);
+		em.persist(entity);
+		endTransaction(transaction,em);
+	}
+
+	private void beginTransaction(EntityTransaction transaction) {
+		transaction.begin();
+	}
+
+	private void endTransaction(EntityTransaction transaction, EntityManager em){
+		transaction.commit();
+		em.clear();
+		em.close();
 	}
 }
