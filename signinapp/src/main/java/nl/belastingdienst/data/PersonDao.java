@@ -48,9 +48,7 @@ public class PersonDao implements Dao<Person> {
 
 	@Override
 	public Optional<Person> getOne(int id) {
-		// TODO: implement
-		throw new UnsupportedOperationException(
-				"TODO: implement method getOne() --> Optional<Person>");
+		return Optional.ofNullable(em.find(Person.class,id));
 	}
 
 	@Override

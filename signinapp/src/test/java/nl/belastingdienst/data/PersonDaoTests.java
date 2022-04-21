@@ -19,11 +19,55 @@
  */
 package nl.belastingdienst.data;
 
+import java.time.LocalDateTime;
+import java.util.Optional;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import nl.belastingdienst.models.Person;
+
 /**
  * Unittesten voor PersonDao klasse
  *
  * @author spekj06
  */
 public class PersonDaoTests {
+	Person person;
+	PersonDao personDao;
+
+	@BeforeEach
+	void setUp() {
+		personDao = new PersonDao();
+		person = new Person("Jamie", "Spekman ", "0622334456", LocalDateTime.now(), "Tom Cruise",
+				666);
+	}
+
+	@Test
+	void givenIdOfPerson_whenGetOne_ThenReturnPersonFromDatabase() {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("signin-db");
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction transaction = em.getTransaction();
+
+		transaction.begin();
+		em.persist(person);
+		transaction.commit();
+
+		Optional<Person> personOptional = personDao.getOne(1);
+		String expectedName = "Jamie";
+		String expectedPhoneNumber = "0622334456";
+
+		Assertions.assertEquals(expectedName,personOptional.get().getFirstName());
+		Assertions.assertEquals(expectedPhoneNumber,person.getPhoneNumber());
+		em.clear();
+		em.close();
+	}
+
 
 }
